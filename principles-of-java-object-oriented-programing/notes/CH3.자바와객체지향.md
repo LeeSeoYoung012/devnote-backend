@@ -159,9 +159,241 @@ public class Mouse {
 
 - getter와 setter도 static 메서드로 선언한다.
 
+- 스태틱 영역 : 클래스 속성, 정적 변수, 정적 속성
 
+- 힙 영역 : 객체 속성, 객체 변수
+
+- 스택 영역 : 지역 변수 
 
 
 ## 3.5 상속: 재사용 + 확장 
+
+**상속이란?**
+
+- 상속은 상위 클래스의 특성을 하위클래스에서 상속하고 거기에 더해 필요한 특성을 추가, 즉 확장해서 사용할 수 있다는 의미이다
+
+![image](https://user-images.githubusercontent.com/60209292/115713152-a7387a00-a3b0-11eb-8eba-c8b7e40d0304.png)
+
+- 상속이라는 키워드 대신 extends 가 존재
+
+**상속의 강력함** 
+
+< 예제1 >
+
+```java
+
+package inheritance01;
+
+public class Driver01 {
+	public static void main(String[] args) {
+		동물 animal = new 동물();
+		포유류 mammalia = new 포유류();
+		조류 bird = new 조류();
+		고래 whale = new 고래();
+		박쥐 bat = new 박쥐();
+		참새 sparrow = new 참새();
+		펭귄 penguin = new 펭귄();
+
+		animal.showMe();
+		mammalia.showMe();
+		bird.showMe();
+		whale.showMe();
+		bat.showMe();
+		sparrow.showMe();
+		penguin.showMe();
+	}
+}
+
+```
+- 상위 클래스에만 showMe()를 정의 했지만 하위 클래스에서도 사용할 수 있다. 
+
+
+< 예제 2 >
+
+```java
+package inheritance01;
+
+public class Driver02 {
+	public static void main(String[] args) {
+		동물 animal = new 동물();
+		동물 mammalia = new 포유류();
+		동물 bird = new 조류();
+		동물 whale = new 고래();
+		동물 bat = new 박쥐();
+		동물 sparrow = new 참새();
+		동물 penguin = new 펭귄();
+
+		animal.showMe();
+		mammalia.showMe();
+		bird.showMe();
+		whale.showMe();
+		bat.showMe();
+		sparrow.showMe();
+		penguin.showMe();
+	}
+}
+
+```
+- 포유류를 동물이다 라고 정의 할 수 있음 
+
+- 인간의 논리를 그대로 코드로 옮길 수 있다.
+
+< 예제 3 >
+
+```java
+
+package inheritance01;
+
+public class Driver03 {
+	public static void main(String[] args) {
+		동물[] animals = new 동물[7]; // 동물 배열에 모든 종류의 동물들이 들어감
+
+		animals[0] = new 동물();
+		animals[1] = new 포유류();
+		animals[2] = new 조류();
+		animals[3] = new 고래();
+		animals[4] = new 박쥐();
+		animals[5] = new 참새();
+		animals[6] = new 펭귄();
+
+		for (int index = 0; index < animals.length; index++) {
+			animals[index].showMe();
+		}
+	}
+
+```
+- 반복문 하나면 모든 동물들이 자신을 들어 낼 수 있다.
+
+**상속은 is a 관계?**
+
+- 펭귄 is a 동물 , 하위클래스 is a 상위클래스 
+
+- 이는 명확한 표현이 아니다. 
+
+- 더 정확한 표현으로는 ``하위 클래스 is a kind of 상위 클래스`` 이다.
+
+**정리**
+
+- 객체 지향 상속은 상위 클래스의 특성을 재사용 하는 것이다. 
+
+- 객체 지향의 상속은 상위 클래스의 특성을 확장하는 것이다. 
+
+- 객체 지향의 상속은 is a kind of 관계를 만족해야 한다. 
+
+**다중 상속과 자바** 
+
+![image](https://user-images.githubusercontent.com/60209292/115715040-ba4c4980-a3b2-11eb-97fe-a365429eb535.png)
+
+- 사람도 수영가능 , 물고기도 수영 가능 
+
+- 인어에게 수영하라 했을 때, 사람처럼 수영을 해야할까 물고기 처럼 해야할까? 이를 다이아몬드 문제라 한다. 
+
+**상속과 인터페이스**
+
+- 상속은 ``하위클래스 is a kind of 상위클래스`` , 인터페이스는 ``구현클래스 is able to 인터페이스``
+
+- 상위 클래스는 물려줄 특성이 풍성할 수록 좋고(리스코프 치환 원칙에 의해)
+
+- 인터페이스는 구현을 강제할 메서드의 개수가 적을 수록 좋다. (인터페이스 분할 원칙에 의해)
+
+**상속과 T메모리**
+
+<Animal class>
+
+```java
+package inheritance03;
+
+public class Animal {
+	public String name;
+
+	public void showName() {
+		System.out.printf("안녕 나는 %s야. 반가워\n", name);
+	}
+}
+```
+
+<Penguin class>
+
+```java
+package inheritance03;
+
+public class Penguin extends Animal {
+	public String habitat;
+
+	public void showHabitat() {
+		System.out.printf("%s는 %s에 살아\n", name, habitat);
+	}
+}
+```
+
+<Driver class>
+
+```java
+package inheritance03;
+
+public class Driver {
+	public static void main(String[] args) {
+		Penguin pororo = new Penguin();// 그림1
+
+		pororo.name = "뽀로로";
+		pororo.habitat = "남극"; 
+
+		pororo.showName();
+		pororo.showHabitat();  
+
+		Animal pingu = new Penguin();// 그림2
+
+		pingu.name = "핑구";
+		// pingu.habitat = "EBS";
+
+		pingu.showName();
+		// pingu.showHabitat();
+
+		// Penguin happyfeet = new Animal(); //실행 되지 않는 코드
+	}
+}
+```
+
+<그림 1>
+
+![image](https://user-images.githubusercontent.com/60209292/115716943-b15c7780-a3b4-11eb-8d4a-eef5f9bb1eca.png)
+
+- 하위 클래스의 인스턴스가 생성 될 때 상위 클래스의 인스턴스도 함께 생성된다. 
+
+<그림 2>
+
+![image](https://user-images.githubusercontent.com/60209292/115717315-07c9b600-a3b5-11eb-8c61-529fa668a652.png)
+
+- Animal pingu = new Penguin() 일 경우 pingu 는 Animal을 가르킨다. 
+
+- Penguin pororo = nw Penguin 일 경우 pororo는 Penguin을 가르킨다. 
+
+
+
 ## 3.6 다형성: 사용편의성 
+
+- 오버라이딩 : 같은 메서드 이름 , 다른 인자 목록으로 상위 클래스의 메서드를 재정의
+
+- 오버로딩 : 같은 메서드 이름, 다른 인자 목록으로 다수의 메서드를 중복 정의
+
+- 제네릭 : 하나의 함수만 구현해도 다수의 함수를 구현한 효과를 낼 수 있다. 
+
 ## 3.7 캡슐화: 정보은닉
+
+![image](https://user-images.githubusercontent.com/60209292/115718968-9be84d00-a3b6-11eb-8add-825fa857cc9c.png)
+
+- call by reference : 저장하고 있는 값을 그 값 자체로 판단
+
+![image](https://user-images.githubusercontent.com/60209292/115719347-f5e91280-a3b6-11eb-88fc-fa0d017a4670.png)
+
+- call by value : 값을 주소 즉 포인터로 판단
+
+![image](https://user-images.githubusercontent.com/60209292/115719468-131de100-a3b7-11eb-8104-dc3eccd6bad7.png)
+
+
+
+
+
+
+
+
