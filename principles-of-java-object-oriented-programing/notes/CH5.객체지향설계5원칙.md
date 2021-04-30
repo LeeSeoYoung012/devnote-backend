@@ -327,6 +327,11 @@ public class 학생 extends 사람 {
 
 ![image](https://user-images.githubusercontent.com/60209292/116561196-10823500-a93d-11eb-937f-72a2821ada3e.png)
 
+![image](https://user-images.githubusercontent.com/60209292/116717381-c9b33e80-aa13-11eb-82bb-a494753ffd4f.png)
+
+- 여기서 KitchenLamp는 DIP 가 지켜지는 것. 추상화된 Button에 의존해서 변화에 영향을 받지 않지만 스스로 확장이 불가능해 OCP는 지켜지 않는다.
+- 여기서 Button은 OCP 가 지켜지는 것 KitchenButton 외에도 다른 버튼으로 확장이 가능하고 변화에 영향을 받지 않는다.
+
 
 
 
