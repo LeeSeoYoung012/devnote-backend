@@ -436,9 +436,68 @@ public class Driver {
 
 ## 7. 전략 패턴(Strategy Pattern)
 
-- 전략 메서드를 가진 객체 
-- 전략 객체를 사용하는 컨텍스트(전략 객체의 사용자/소비자)
-- 전략 객체를 생성해 컨텍스트에 주입하는 클라이언트(제3자, 전략 객체의 공급자)
+- 클라이언트가 전략을 생성해 전략을 실행한 컨텍스트에 주입하는 패턴
+- 클라이언트는 다양한 전략 중 하나를 선택해 생성한 후 컨텍스트에 주입
+- 템플릿 메서드 패턴이 상속을 이용해서 동일한 코드를 제외하고 코드를 추가한다면, 전략 패턴은 객체 주입을 통해서 동일한 코드를 제외하고 코드를 추가
+- 전략 패턴의 특징
+  - 전략 메서드를 가진 `전략 객체`
+  - 전략 객체를 사용하는 `컨텍스트`
+  - 전략 객체를 생성해 컨텍스트에 주입하는 `클라이언트`
+  - OCP와 DIP를 적용한 것 패턴
+- 전략을 내부 익명 클래스로 정의해서 `템플릿 콜백 패턴`라고 특수하게 명칭하기도 함
+- Strategy
+```java
+public interface Strategy {
+    public abstract void runStrategy();
+}
+```
+- StrategyGun
+```java
+// 전략 객체
+public class StrategyGun implements Strategy {
+    @Override
+    public void runStrategy() {
+        System.out.println("탕탕");
+    }
+}
+```
+- StrategySword
+```java
+// 전략 객체
+public class StrategySword implements Strategy {
+    @Override
+    public void runStrategy() {
+        System.out.println("챙챙");  
+    }
+}
+```
+- Solider
+```java
+// 컨텍스트
+public class Solider {
+    void runContext(Strategy strategy) {
+        System.out.println("전투 시작");
+        strategy.runStrategy();
+        System.out.println("전투 종료");
+    }
+}
+```
+- Client
+```java
+// 클라이언트
+public class Client {
+    public static void main(String[] args) {
+        Strategy strategy = null;
+        Solider solider = new Solider();
 
-## 8. 템플릿 콜백 패턴(Template Callback Pattern - 견본/회신 패턴)
-## 9. 스프링이 사랑한 다른 패턴들
+        // 총을 통한 전투
+        strategy = new StrategyGun();
+        solider.runContext(strategy);
+
+        // 검을 통한 전부
+        strategy = new StrategySword();
+        solider.runContext(strategy);
+    }
+}
+```
+
